@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Document</title>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+        <link rel="stylesheet" href="resetstyle.css">
+        <link rel="stylesheet" href="style.css">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    </head>
+    <body style="font-family: Roboto;">
+        <nav class="navmain">
+            <div class="btn-toggle-nav" onclick="toggleNav()"></div>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="/GabSoft/DBList">Drug List</a></li>
+                <li><a href="#">Add Drug</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+            <img class="logo" src="img/logo2.png"></a>
+        </nav>
+        
+        <aside class="n-sidebar">
+            <ul>
+                <li><a href="#">Projects for your life</a></li>
+                <li><a href="#">Projects for your life</a></li>
+                <li><a href="#">Projects for your life</a></li>
+                <li><a href="#">Projects for your life</a></li>
+            </ul>
+        </aside>
+        
+        <h1>DEMONSTRATION</h1>
+        <div class="left">
+            <h2>About Adding Drugs</h2>
+            <p>
+                This is a basic demonstration of adding a prescription based on a drug's NDC, something that can typically
+                be found on a marketing materials or the presciption bottle itself. For the demonstration, all information
+                besides the NDC itself will be preassumed, though those fields are functional in the database.
+            </p>
+        </div>
+        <div class="center">
+            <h2>Add Drug by NDC</h2>
+            	<form action = 'DBSearch' method='POST'>
+            		<Label for='ndc'>NDC: </Label><br>
+            		<input type='text' id='ndc' name='ndc'><br>
+            		<input type='submit' value='Add'>
+            	</form>
+        </div>
+    </body>
+    <script src="main.js"></script>
+</html>
