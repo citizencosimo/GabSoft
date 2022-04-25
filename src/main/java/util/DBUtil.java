@@ -4,6 +4,10 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -39,6 +43,27 @@ public class DBUtil {
 	    }
 		
 		return null;
+		
+	}
+	
+	public static boolean validate(Connection c, String u, String p) throws SQLException {
+		ResultSet rs = null;
+		String userLookup = "select PASSWORD from login where USERNAME=?";
+		PreparedStatement ps = c.prepareStatement(userLookup);
+		ps.setString(1, u);
+		rs = ps.executeQuery();
+		if (rs.next()) {
+			String g = hashPass(p);
+			if (g.equals(rs.getString("PASSWORD"))) {
+				System.out.println("MATCHED: " + p + " / " + g);
+				return true;
+			}
+			else {
+				System.out.println("Password did not match!");
+				return false;
+			}
+		}
+		return false;
 		
 	}
 }

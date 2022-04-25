@@ -26,13 +26,14 @@ public class HTMLBuild {
 			+ "        \r\n"
 			+ "        <aside class=\"n-sidebar\">\r\n"
 			+ "            <ul>\r\n"
-			+ "                <li><a href=\"#\">PlaceHolder1</a></li>\r\n"
-			+ "                <li><a href=\"#\">PlaceHolder2</a></li>\r\n"
-			+ "                <li><a href=\"#\">PlaceHolder3</a></li>\r\n"
-			+ "                <li><a href=\"#\">PlaceHolder4</a></li>\r\n"
+			+ "                <li><a href=\"#\">Your Drug List</a></li>\r\n"
+			+ "                <li><a href=\"#\">User Settings</a></li>\r\n"
+			+ "                <li><a href=\"#\">About</a></li>\r\n"
+			+ "                <li><a href=\"#\">Logout</a></li>\r\n"
 			+ "            </ul>\r\n"
-			+ "        </aside>"
-			+ "<script src=\"main.js\"></script>";
+			+ "        </aside>";
+			//+ "<script src=\"main.js\"></script>";
+	
 	
 	
 	
