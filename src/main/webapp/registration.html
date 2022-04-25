@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Document</title>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+        <link rel="stylesheet" href="resetstyle.css">
+        <link rel="stylesheet" href="style.css">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    </head>
+    <body style="font-family: Roboto;">
+        <nav class="navmain">
+            <div class="btn-toggle-nav" onclick="toggleNav()"></div>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="/GabSoft/DBList">Drug List</a></li>
+                <li><a href="/GabSoft/drugsearch.html">Add Drug</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+            <img class="logo" src="img/logo2.png"></a>
+        </nav>
+        
+        <aside class="n-sidebar">
+            <ul>
+                <li><a href="#">Projects for your life</a></li>
+                <li><a href="#">Projects for your life</a></li>
+                <li><a href="#">Projects for your life</a></li>
+                <li><a href="#">Projects for your life</a></li>
+            </ul>
+        </aside>
+        
+        <h1>Test</h1>
+        <div class="left">
+            <h2>Create New User:</h2>
+            	<form action = 'Register' method='POST'>
+            		<label for='username'>Username: </label><br>
+            		<input type='text' id='username' name='username'><br><br>
+            		
+            		<label for='fname'>First Name: </label><br>
+            		<input type='text' id='fname' name='fname'><br>
+            		<label for='lname'>Last Name: </label><br>
+            		<input type='text' id='lname' name='lname'><br>
+            		<label for='email'>Email Address: </label><br>
+            		<input type='text' id='email' name='email'><br>
+            		<label for='phonenumber'>Phone Number: </label><br>
+            		<input type='text' id='pnum' name='pnum'><br>
+            		<label for='pharmacy'>Preferred Pharmacy: </label><br>
+            		<input type='text' id='pharm' name='pharm'><br><br>
+            		<label for='pass'>Password: </label><br>
+            		<input type='password' id='pass' name='pass'><br>
+            		<label for='pass2'>Re-enter password:</label><br>
+            		<input type='password' id='pass2' name='pass2'><br>
+            		<input type='submit' value='Create User'><br>
+
+            	</form>
+        </div>
+    </body>
+    <script src="main.js"></script>
+</html>
