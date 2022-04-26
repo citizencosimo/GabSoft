@@ -24,7 +24,6 @@ public class UserUpdate extends HttpServlet {
      */
     public UserUpdate() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
@@ -37,7 +36,7 @@ public class UserUpdate extends HttpServlet {
 		
 		try {
 			user = session.getAttribute("username").toString();
-			System.out.println("HALP");
+			//System.out.println("HALP");
 		}
 		catch (Exception e) {
 			response.sendRedirect("login.html");

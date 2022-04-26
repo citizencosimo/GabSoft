@@ -77,7 +77,7 @@ public class Register extends HttpServlet {
 	        rs = preparedStatement.executeQuery();
 	        
 	        if (rs.next() && rs.getString("USERNAME").equals(user)) {
-	        	// Error Username already taken message
+	        	
 	        	return false;
 	        }
 	        else {

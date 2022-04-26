@@ -41,16 +41,20 @@ public class UserInfo extends HttpServlet {
 		
 		try {
 			user = session.getAttribute("username").toString();
-		} catch (Exception e) {
+		
+			PrintWriter w = response.getWriter();
+			DBUtil.writeHeader(response, w);
+			getInfo(response, session, w, user);
+
+			if ((boolean) session.getAttribute("update")) {
+				w.append("<br><em>Information updated!</em><br></div></body>" + HTMLBuild.script);
+				session.setAttribute("update", false);
+			}
+		}
+		catch (Exception e) {
 			response.sendRedirect("login.html");
 		}
-		PrintWriter w = response.getWriter();
-		DBUtil.writeHeader(response, w);
-		getInfo(response, session, w, user);
-		if ((boolean) session.getAttribute("update")) {
-			w.append("<br><em>Information updated!</em><br></div></body>" + HTMLBuild.script);
-		}
-		
+			
 		
 		
 	}
@@ -59,7 +63,6 @@ public class UserInfo extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
 	
