@@ -1,7 +1,6 @@
 package content;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.Connection;
 
 import javax.servlet.ServletException;
@@ -14,16 +13,16 @@ import javax.servlet.http.HttpSession;
 import util.DBUtil;
 
 /**
- * Servlet implementation class Welcome
+ * Servlet implementation class UserUpdate
  */
-@WebServlet("/Welcome")
-public class Welcome extends HttpServlet {
+@WebServlet("/UserUpdate")
+public class UserUpdate extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public Welcome() {
+    public UserUpdate() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -32,29 +31,44 @@ public class Welcome extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		response.setContentType("text/html");
-		PrintWriter w = response.getWriter();
-		DBUtil.writeHeader(response, w);
+		HttpSession session = request.getSession();
+		
+		String user = "";
+		
+		try {
+			user = session.getAttribute("username").toString();
+			System.out.println("HALP");
+		}
+		catch (Exception e) {
+			response.sendRedirect("login.html");
+		}
+		
+		String[] names = {"FIRSTNAME", "LASTNAME", "EMAIL", "PHONE", "PHARMACY"};
 		Connection connection = null;
-		String user = request.getParameter("username");
-		String pass = request.getParameter("pass");
-		boolean result = false;
+		
 		try {
 			DBConnection.getDBConnection(getServletContext());
 	        connection = DBConnection.connection;
-	        result = DBUtil.validate(connection, user, pass);
 	        
-	        if (result) {
-	        	HttpSession session = request.getSession();
-	        	session.setAttribute("username", user);
-	        	session.setAttribute("update", false);
-	        	response.sendRedirect("UserInfo");
-	        	
-	        }
-		}
-		catch (Exception e) {
+			
+			String updateSQL = "";
+			
+			for(int i = 0; i < names.length; i++) {
+				String update = request.getParameter(names[i]);
+				if(!update.equals(session.getAttribute(names[i]))) {
+					String[] updateval = {update};
+					updateSQL = "update DemoUser set " + names[i] + "=? where USERNAME ='" + user + "'";
+					DBUtil.prepareStatement(connection, updateSQL, updateval).execute();
+					session.setAttribute("update", true);
+				}
+			}
+			response.sendRedirect("UserInfo");
+		} catch (Exception e) {
 			e.printStackTrace();
+			response.sendRedirect("login.html");
 		}
+		
+		
 	}
 
 	/**

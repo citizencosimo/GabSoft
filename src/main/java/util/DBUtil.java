@@ -66,4 +66,14 @@ public class DBUtil {
 		return false;
 		
 	}
+	
+	public static PreparedStatement prepareStatement(Connection c, String s, String[] a) throws SQLException {
+		
+		PreparedStatement ps = c.prepareStatement(s);
+		for (int i = 1; i <= a.length; i++ ) {
+			ps.setString(i, a[i - 1]);
+		}
+		
+		return ps;
+	}
 }

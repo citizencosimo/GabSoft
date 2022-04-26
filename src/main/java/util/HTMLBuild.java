@@ -34,6 +34,8 @@ public class HTMLBuild {
 			+ "        </aside>";
 			//+ "<script src=\"main.js\"></script>";
 	
+	public static String script = "<script src=\"main.js\"></script>";
+	
 	
 	
 	
