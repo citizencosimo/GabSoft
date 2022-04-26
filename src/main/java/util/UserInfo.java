@@ -1,9 +1,6 @@
-package content;
+package util;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.sql.Connection;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -11,19 +8,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import util.DBUtil;
-
 /**
- * Servlet implementation class Welcome
+ * Servlet implementation class UserInfo
  */
-@WebServlet("/Welcome")
-public class Welcome extends HttpServlet {
+@WebServlet("/UserInfo")
+public class UserInfo extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public Welcome() {
+    public UserInfo() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -32,27 +27,11 @@ public class Welcome extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		response.setContentType("text/html");
-		PrintWriter w = response.getWriter();
-		DBUtil.writeHeader(response, w);
-		Connection connection = null;
-		String user = request.getParameter("username");
-		String pass = request.getParameter("pass");
-		boolean result = false;
-		try {
-			DBConnection.getDBConnection(getServletContext());
-	        connection = DBConnection.connection;
-	        result = DBUtil.validate(connection, user, pass);
-	        
-	        if (result) {
-	        	HttpSession session = request.getSession();
-	        	session.setAttribute("username", user);
-	        	response.sendRedirect("UserInfo");
-	        }
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-		}
+		HttpSession session = request.getSession();
+		
+		String user = session.getAttribute("username").toString();
+		System.out.println(user);
+		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
 	/**
