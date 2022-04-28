@@ -20,6 +20,7 @@ import util.HTMLBuild;
 /**
  * Servlet implementation class UserInfo
  */
+@SuppressWarnings("unused")
 @WebServlet("/UserInfo")
 public class UserInfo extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -97,7 +98,9 @@ public class UserInfo extends HttpServlet {
 		        		+ "\t\t<input type='text' name='PHONE' value='" + rs.getString("PHONE") + "'>\n<br>"
 		        		+ "\t\t<label for 'pharm'>Preferred pharmacy:</label><br>\n"
 		        		+ "\t\t<input type='text' name='PHARMACY' value='" + rs.getString("PHARMACY") + "'>\n<br>"
-		        		+ "\t\t<input type='submit' value='Update Info'></form></div>");
+		        		+ "\t\t<input type='submit' value='Update Info'></form></div></body>");
+		        w.append(HTMLBuild.script + "</html>");
+		        
 	        }
 	        
 		} catch (Exception e) {

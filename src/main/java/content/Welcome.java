@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import util.DBUtil;
+import util.HTMLBuild;
 
 /**
  * Servlet implementation class Welcome
@@ -50,6 +51,12 @@ public class Welcome extends HttpServlet {
 	        	session.setAttribute("update", false);
 	        	response.sendRedirect("UserInfo");
 	        	
+	        } else {
+	        	w.append("\n\t<h1>TEST</h1>\n"
+	        			+ "<div class='left'><h2>Sorry, the username or password provided was incorrect</h2>"
+	        			+ "<br><form><input type='button' value='Go back' onclick='history.back()'></form></div></body>");
+	        	w.append(HTMLBuild.script);
+	        	w.append("</html>");
 	        }
 		}
 		catch (Exception e) {

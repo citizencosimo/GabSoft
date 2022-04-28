@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import util.DBUtil;
+import util.HTMLBuild;
 
 /**
  * Servlet implementation class Register
@@ -44,10 +45,29 @@ public class Register extends HttpServlet {
 		String phone = request.getParameter("pnum");
 		String pharm = request.getParameter("pharm");
 		boolean success = false;
-		System.out.println(username + "/" + password);
 		if (username != null && password != null) {
 			success = reg(response, username, password, password2, lname, fname, email, phone, pharm);
 		}
+		
+		response.setContentType("text/html");
+	    PrintWriter w = response.getWriter();
+	    DBUtil.writeHeader(response, w);
+		
+		if (success) {
+			w.append("<h1>TestPage</h1>");
+			w.append("<div class='left'>"
+					+ "<h2>Account Successfully Created!</h2>"
+					+ "<a href='UserInfo'>Click Here</a> to verify your user information.</div></body>");
+			w.append(HTMLBuild.script + "</html>");
+			
+		} else {
+			w.append("<h1>TestPage</h1>");
+			w.append("<div class='left'>"
+					+ "<h2>Something went wrong</h2>"
+					+ "<a href='registration.html'>Click here</a> to try again.</div></body>");
+			w.append(HTMLBuild.script + "</html>");
+		}
+		
 	}
 
 	/**
@@ -59,14 +79,20 @@ public class Register extends HttpServlet {
 	}
 	
 	boolean reg(HttpServletResponse response, String user, String pass, String p2, String l, String f, String em, String ph, String pp ) throws IOException {
-		response.setContentType("text/html");
-	    PrintWriter w = response.getWriter();
-	    DBUtil.writeHeader(response, w);
+		
 	    Connection connection = null;
+	    
+	    if (!pass.equals(p2)) {
+        	return false;
+        }
 	    
 	    try {
 	    	DBConnection.getDBConnection(getServletContext());
 	        connection = DBConnection.connection;
+	        
+	        if (!pass.equals(p2)) {
+	        	return false;
+	        }
 	    	
 	        String genpass = DBUtil.hashPass(pass); // Creates a hash from the input password.
 	        

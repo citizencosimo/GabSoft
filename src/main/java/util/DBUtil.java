@@ -19,6 +19,7 @@ public class DBUtil {
 			w.append(util.HTMLBuild.header);
 			w.append("<body>");
 			w.append(util.HTMLBuild.nav);
+			w.append("<h1>!</h1>");
 			
 		}
 	

@@ -13,6 +13,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import util.DBUtil;
 
@@ -36,13 +37,21 @@ public class DBList extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		
-		search("metoprolol", response);
+		try {
+			HttpSession session = request.getSession();
+			String user = session.getAttribute("username").toString();
+			System.out.println("!");
+			search(user, session, response);
+		}
+		catch (Exception e) {
+			response.sendRedirect("login.html");
+		}
 		
 		
 	}
 	
 	
-	void search(String keyword, HttpServletResponse response) throws IOException {
+	void search(String user, HttpSession session, HttpServletResponse response) throws IOException {
 		PrintWriter w = response.getWriter();
 		DBUtil.writeHeader(response, w);
 		
@@ -51,47 +60,35 @@ public class DBList extends HttpServlet {
 		try {
 			DBConnection.getDBConnection(getServletContext());
 			connection = DBConnection.connection;
-			String grabSql = "select * from DemoUser";
-			Statement m = connection.createStatement();
-			PreparedStatement ps = null;
-			String pSql = "select * from DrugDB where NDC=?";
-			ResultSet user = m.executeQuery(grabSql);
-			String greeting = "Hello anonymous user!";
-			String email = "";
-			String pharm = "";
+			//String grabSql = "select * from Prescription where USERNAME=?";
+			String[] vals = {user};
+			System.out.println(user);
+			//PreparedStatement ps = DBUtil.prepareStatement(connection, grabSql, vals);
+			PreparedStatement ps;
+			//ResultSet rs = ps.executeQuery();
 			ResultSet scripts;
 			int i = 1;
-			while (user.next()) {
-				String lname = user.getString("LASTNAME").trim();
-				String fname = user.getString("FIRSTNAME").trim();
-				greeting = ("Hello " + fname + " " + lname + ".");
-				email = user.getString("EMAIL").trim();
-				pharm = user.getString("PHARMACY");
+			w.append("\n<h1>DEMONSTRATION</h1><div class='left'>\n<h2>Hello " + session.getAttribute("fname") + "!</h2>");
+			w.append("<br>\n<p>\r\n"
+					+ "               EMAIL:\t" + session.getAttribute("email").toString()
+					+ "				 PHARMACY:\t" + session.getAttribute("pharmacy").toString()
+					+ "            \r\n</p>\n</div>\n");
+			w.append("\n<div class='center'>\n<h2>Prescription List</h2>\n");
+			String joinSQL = "select Prescription.NDC, DrugDB.BRANDNAME, DrugDB.STRENGTH, DrugDB.FORM, Prescription.TAKE, Prescription.PERDAY, "
+					+ "Prescription.DS, Prescription.FILLDATE, Prescription.PHARM from Prescription inner join DrugDB on Prescription.NDC=DrugDB.NDC "
+					+ "where Prescription.USERNAME=?";
+			ps = DBUtil.prepareStatement(connection, joinSQL, vals);
+			scripts = ps.executeQuery();
+				
+			while (scripts.next()) {
+				w.append("<br>\n<p>" + i + ". ");
+				w.append(scripts.getString("BRANDNAME") + " " + scripts.getString("STRENGTH") + ": Take " 
+						+ scripts.getString("TAKE") + " " + scripts.getString("FORM").trim().toLowerCase()
+						+ " " + scripts.getInt("PERDAY") + " time(s) per day.\n<BR>"
+						+ "Last Filled: " + scripts.getString("FILLDATE") + " for a " + scripts.getString("DS") + " days supply.</p>");
+				i++;
 			}
-			grabSql = "select * from Prescription";
-			ResultSet rxList = m.executeQuery(grabSql);
-				w.append("\n<h1>DEMONSTRATION</h1><div class='left'>\n<h2>" + greeting + "\n</h2>");
-				w.append("<br>\n<p>\r\n"
-						+ "               EMAIL:\t" + email
-						+ "				 PHARMACY:\t" + pharm
-						+ "            \r\n</p>\n</div>\n");
-				w.append("\n<div class='center'>\n<h2>Prescription List</h2>\n");
-				while (rxList.next()) {
-					String ndc = rxList.getString("NDC").trim();
-					ps = connection.prepareStatement(pSql);
-					ps.setString(1, ndc);
-					System.out.println(ps.toString());
-					scripts = ps.executeQuery();
-					System.out.println(ps.toString());
-					while (scripts.next()) {
-						w.append("<br>\n<p>" + i + ". ");
-						w.append(scripts.getString("BRANDNAME") + " " + scripts.getString("STRENGTH") + ": Take " 
-								+ rxList.getInt("TAKE") + " " + scripts.getString("FORM").trim().toLowerCase()
-								+ " " + rxList.getInt("PERDAY") + " time(s) per day.\n<BR>"
-								+ "Last Filled: " + rxList.getString("FILLDATE") + "</p>");
-						i++;
-					}
-				}
+			
 			
 		} catch (SQLException se) {
 			se.printStackTrace();
